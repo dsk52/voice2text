@@ -1,0 +1,4 @@
+export GOOGLE_APPLICATION_CREDENTIALS=secret/hogefuga.json
+export REGION=asia-northeast1
+export INPUT_BUCKET_NAME=voice
+export OUTPUT_BUCKET_NAME=text
