@@ -25,5 +25,6 @@ secret
 
 .editorconfig
 .envrc
+.envrc.sample
 .python-version
 

@@ -71,7 +71,7 @@ def voice2text(event, context):
     """
     main handler
     """
-    source_file_name = event['name'] # 'tagiri.wav'
+    source_file_name = event['name']
     if source_file_name is None:
         raise Exception('file param is empty')
 
