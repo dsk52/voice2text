@@ -5,7 +5,6 @@ from logging import getLogger, StreamHandler, INFO
 
 from google.cloud import speech_v1p1beta1 as speech
 from google.cloud import storage
-from google.cloud.speech import enums
 
 logger = getLogger(__name__)
 handler = StreamHandler()
@@ -67,6 +66,13 @@ def __uploadToBucket(source_file, upload_file_name):
 
     blob.upload_from_filename(source_file)
 
+def removeFile(source_file):
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(input_bucket_name)
+
+    blob = bucket.blob(source_file)
+    blob.delete()
+
 def voice2text(event, context):
     """
     main handler
@@ -87,6 +93,8 @@ def voice2text(event, context):
     texts = formatToTextList(texts)
     logger.info(f"[Start] file uploaded to storage: {upload_file}")
     upload(upload_file, texts)
-
     logger.info(f"[End] file uploaded to storage: {upload_file}")
+
+    removeFile(source_file_name)
+    logger.info('Removed source file')
 
