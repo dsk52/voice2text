@@ -22,14 +22,15 @@ def transcribe(file_name):
     """
     client = speech.SpeechClient()
 
-    language_code = "ja-jP"
-    sample_rate_hertz = 48000
-    # encoding = enums.RecognitionConfig.AudioEncoding.WAV
-
     config = {
-        "language_code": language_code,
-        "sample_rate_hertz": sample_rate_hertz,
+        "language_code": "ja-jP",
+        "sample_rate_hertz": 48000,
         # "encoding": encoding,
+        "diarization_config": {
+            "enable_speaker_diarization": True,
+            "min_speaker_count": 1,
+            "max_speaker_count": 6
+        }
     }
     audio = {
         "uri": f"gs://{input_bucket_name}/{file_name}"
@@ -43,6 +44,8 @@ def formatToTextList(datas):
     results = list()
     for result in datas:
         alternative = result.alternatives[0]
+        print(f"{alternative}\n")
+
         results.append(f"{alternative.transcript}")
 
     return results
@@ -97,4 +100,3 @@ def voice2text(event, context):
 
     removeFile(source_file_name)
     logger.info('Removed source file')
-
